@@ -75,7 +75,7 @@ const Auth = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-background"></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(199,210,254,0.1),transparent_50%)]"></div>
       
-      <Card className="w-full max-w-md p-8 relative z-10 animate-scale-in bg-card border-border shadow-lg">
+      <Card className="w-full max-w-sm p-8 relative z-10 animate-scale-in bg-card border-border shadow-lg">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
             ConstituCheck
