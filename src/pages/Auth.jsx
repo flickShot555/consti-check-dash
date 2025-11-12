@@ -98,10 +98,12 @@ const Auth = () => {
       <div className="background-overlay gradient-br"></div>
       <div className="background-overlay radial"></div>
       
-      <Card className="auth-card">
-        <div className="text-center card-header">
-          <h1 className="title">ConstituCheck</h1>
-          <p className="subtitle">
+      <Card className="w-full max-w-md p-8 relative z-10 animate-scale-in bg-card border-border shadow-lg">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
+            ConstituCheck
+          </h1>
+          <p className="text-muted-foreground">
             {isLogin ? 'Welcome back to your admin portal' : 'Create your admin account'}
           </p>
         </div>

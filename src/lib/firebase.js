@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
-// Firebase configuration - Replace with your actual Firebase config
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBKhxqUj1lvRdwE4f5OSBYdNPejCdZsW-c",
   authDomain: "constitucheck.firebaseapp.com",
