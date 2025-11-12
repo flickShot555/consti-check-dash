@@ -1,0 +1,163 @@
+/* Base Styles */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .background-overlay {
+    position: absolute;
+    inset: 0;
+  }
+  
+  .gradient-br {
+    background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05), #ffffff);
+  }
+  
+  .radial {
+    background: radial-gradient(circle at 50% 50%, rgba(199, 210, 254, 0.1), transparent 50%);
+  }
+  
+  .auth-card {
+    width: 100%;
+    max-width: 24rem;
+    padding: 2.5rem;
+    position: relative;
+    z-index: 10;
+    animation: scale-in 0.3s ease-out;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    background: linear-gradient(to right, #4f46e5, #9333ea);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 0.5rem;
+  }
+  
+  .subtitle {
+    color: #6b7280;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: black;
+  }
+  
+  .label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .icon {
+    height: 1rem;
+    width: 1rem;
+  }
+  
+  .form input {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+  }
+  
+  button {
+    width: 100%;
+    background: linear-gradient(to right, #4f46e5, #9333ea);
+    color: #ffffff;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  
+  button:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+  
+  button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .loading {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .spinner {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid #ffffff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  .toggle-link {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+  
+  .toggle-link button {
+    font-size: 0.875rem;
+    color: #4f46e5;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.2s;
+  }
+  
+  .toggle-link button:hover:not(:disabled) {
+    color: #4338ca;
+  }
+  
+  .toggle-link button:disabled {
+    cursor: not-allowed;
+    color: #9ca3af;
+  }
+  
+  /* Animations */
+  @keyframes scale-in {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { Lock, Mail, CheckCircle2 } from 'lucide-react';
+import './Auth.css'; // Adjust the path based on your project structure
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,27 +16,33 @@ const Auth = () => {
   const { signup, login, user } = useAuth();
   const navigate = useNavigate();
 
-  // Redirect if already logged in
-  if (user) {
-    navigate('/');
-    return null;
-  }
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
+  const validateInput = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !password) {
       toast.error('Please fill in all fields');
-      return;
+      return false;
     }
-
+    if (!emailRegex.test(email)) {
+      toast.error('Please enter a valid email address');
+      return false;
+    }
     if (password.length < 6) {
       toast.error('Password must be at least 6 characters');
-      return;
+      return false;
     }
+    return true;
+  };
+
+  const handleAuth = async () => {
+    if (!validateInput()) return;
 
     setLoading(true);
-
     try {
       if (isLogin) {
         await login(email, password);
@@ -52,43 +59,57 @@ const Auth = () => {
     } catch (error) {
       console.error('Auth error:', error);
       let errorMessage = 'An error occurred. Please try again.';
-      
-      if (error.code === 'auth/email-already-in-use') {
-        errorMessage = 'This email is already registered. Please login instead.';
-      } else if (error.code === 'auth/invalid-email') {
-        errorMessage = 'Invalid email address.';
-      } else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-        errorMessage = 'Invalid email or password.';
-      } else if (error.code === 'auth/weak-password') {
-        errorMessage = 'Password is too weak.';
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          errorMessage = 'This email is already registered. Please login instead.';
+          break;
+        case 'auth/invalid-email':
+          errorMessage = 'Invalid email address.';
+          break;
+        case 'auth/user-not-found':
+        case 'auth/wrong-password':
+          errorMessage = 'Invalid email or password.';
+          break;
+        case 'auth/weak-password':
+          errorMessage = 'Password is too weak.';
+          break;
+        case 'auth/too-many-requests':
+          errorMessage = 'Too many attempts. Please try again later.';
+          break;
+        case 'auth/network-request-failed':
+          errorMessage = 'Network error. Please check your connection.';
+          break;
+        default:
+          errorMessage = 'An unexpected error occurred. Please try again.';
       }
-      
       toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleAuth();
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden">
-      {/* Animated background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-background"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(199,210,254,0.1),transparent_50%)]"></div>
+    <div className="auth-container">
+      <div className="background-overlay gradient-br"></div>
+      <div className="background-overlay radial"></div>
       
-      <Card className="w-full max-w-md p-8 relative z-10 animate-scale-in bg-card border-border shadow-lg">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
-            ConstituCheck
-          </h1>
-          <p className="text-muted-foreground">
+      <Card className="auth-card">
+        <div className="text-center card-header">
+          <h1 className="title">ConstituCheck</h1>
+          <p className="subtitle">
             {isLogin ? 'Welcome back to your admin portal' : 'Create your admin account'}
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground flex items-center gap-2">
-              <Mail className="h-4 w-4" />
+        <form onSubmit={handleSubmit} className="form">
+          <div className="form-group">
+            <label className="label">
+              <Mail className="icon" />
               Email
             </label>
             <Input
@@ -96,14 +117,13 @@ const Auth = () => {
               placeholder="admin@constitucheck.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-background border-border"
               disabled={loading}
             />
           </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground flex items-center gap-2">
-              <Lock className="h-4 w-4" />
+          <div className="form-group">
+            <label className="label">
+              <Lock className="icon" />
               Password
             </label>
             <Input
@@ -111,19 +131,17 @@ const Auth = () => {
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-background border-border"
               disabled={loading}
             />
           </div>
 
           <Button
             type="submit"
-            className="w-full bg-gradient-primary hover:opacity-90 transition-opacity"
             disabled={loading}
           >
             {loading ? (
-              <div className="flex items-center gap-2">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+              <div className="loading">
+                <div className="spinner"></div>
                 Processing...
               </div>
             ) : (
@@ -132,10 +150,9 @@ const Auth = () => {
           </Button>
         </form>
 
-        <div className="mt-6 text-center">
+        <div className="toggle-link">
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="text-sm text-primary hover:underline transition-all"
             disabled={loading}
           >
             {isLogin ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}
