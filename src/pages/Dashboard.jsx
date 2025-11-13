@@ -13,8 +13,8 @@ const Dashboard = () => {
   const stats = [
     {
       title: 'Total Users',
-      value: '2,543',
-      change: '+12.5%',
+      value: '3',
+      change: '+100%',
       icon: Users,
       gradient: 'from-blue-500 to-cyan-500'
     },
@@ -27,15 +27,15 @@ const Dashboard = () => {
     },
     {
       title: 'Active Sessions',
-      value: '432',
-      change: '+23.1%',
+      value: '1',
+      change: '+100%',
       icon: Activity,
       gradient: 'from-green-500 to-emerald-500'
     },
     {
       title: 'Database Size',
-      value: '45.2 GB',
-      change: '+5.4%',
+      value: '400 MB',
+      change: '+0%',
       icon: Database,
       gradient: 'from-orange-500 to-red-500'
     }
@@ -43,7 +43,7 @@ const Dashboard = () => {
 
   const recentActivity = [
     { user: 'admin@constitucheck.com', action: 'Uploaded document', time: '2 minutes ago' },
-    { user: 'user@example.com', action: 'Searched database', time: '15 minutes ago' },
+    { user: 'abbas1795khan@gmail.com', action: 'Searched database', time: '15 minutes ago' },
     { user: 'staff@constitucheck.com', action: 'Modified record', time: '1 hour ago' },
     { user: 'admin@constitucheck.com', action: 'Generated report', time: '2 hours ago' },
   ];
